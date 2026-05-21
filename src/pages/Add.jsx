@@ -57,10 +57,13 @@ const Add = () => {
     setSuccess('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/products', { // Adjust URL and Port if needed
+      const token = localStorage.getItem('pharmsuite_token');
+      const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+      const response = await fetch(`${API_BASE}/api/products`, { // Adjust URL and Port if needed
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(formData),
       });

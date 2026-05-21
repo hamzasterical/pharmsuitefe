@@ -34,7 +34,12 @@ const POS = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`${API_BASE}/api/products`);
+        const token = localStorage.getItem('pharmsuite_token');
+        const response = await fetch(`${API_BASE}/api/products`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         const data = await response.json();
         if (!response.ok) {
           throw new Error(data.message || 'Failed to load products');
@@ -189,11 +194,15 @@ const POS = () => {
     setOcrError('');
 
     try {
+      const token = localStorage.getItem('pharmsuite_token');
       const formData = new FormData();
       formData.append('file', ocrImageFile);
 
       const response = await fetch(`${API_BASE}/api/pos/ocr-prescription`, {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
         body: formData,
       });
       const data = await response.json();
@@ -222,10 +231,12 @@ const POS = () => {
     setOcrError('');
 
     try {
+      const token = localStorage.getItem('pharmsuite_token');
       const response = await fetch(`${API_BASE}/api/pos/ocr-parse`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
           rawText: ocrRawText,
@@ -376,10 +387,12 @@ const POS = () => {
     setLoading(true);
 
     try {
+      const token = localStorage.getItem('pharmsuite_token');
       const response = await fetch(`${API_BASE}/api/pos/checkout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
           customer,
@@ -406,7 +419,11 @@ const POS = () => {
       if (saleId) {
         setReceiptLoading(true);
         try {
-          const receiptResponse = await fetch(`${API_BASE}/api/pos/sales/${saleId}`);
+          const receiptResponse = await fetch(`${API_BASE}/api/pos/sales/${saleId}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
           const receiptJson = await receiptResponse.json();
           if (receiptResponse.ok) {
             setReceiptData(receiptJson.data || null);

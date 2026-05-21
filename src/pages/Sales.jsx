@@ -21,8 +21,14 @@ const Sales = () => {
     const offset = reset ? 0 : sales.length;
 
     try {
+      const token = localStorage.getItem('pharmsuite_token');
       const response = await fetch(
-        `${API_BASE}/api/pos/sales?limit=${PAGE_SIZE}&offset=${offset}`
+        `${API_BASE}/api/pos/sales?limit=${PAGE_SIZE}&offset=${offset}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
       );
       const data = await response.json();
 
@@ -56,7 +62,12 @@ const Sales = () => {
     setError('');
 
     try {
-      const response = await fetch(`${API_BASE}/api/pos/sales/${saleId}`);
+      const token = localStorage.getItem('pharmsuite_token');
+      const response = await fetch(`${API_BASE}/api/pos/sales/${saleId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       const data = await response.json();
       if (!response.ok) {
         throw new Error(data.message || 'Failed to load receipt');

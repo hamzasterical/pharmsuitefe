@@ -16,7 +16,12 @@ const MainLayout = ({ children }) => {
         setAlertsError('');
 
         try {
-            const response = await fetch(`${API_BASE}/api/alerts?limit=50`);
+            const token = localStorage.getItem('pharmsuite_token');
+            const response = await fetch(`${API_BASE}/api/alerts?limit=50`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             const data = await response.json();
             if (!response.ok) {
                 throw new Error(data.message || 'Failed to load alerts');

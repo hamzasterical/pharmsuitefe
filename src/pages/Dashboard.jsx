@@ -36,10 +36,17 @@ const Dashboard = () => {
       setError("");
 
       try {
+        const token = localStorage.getItem('pharmsuite_token');
+        const fetchOptions = {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        };
+
         const results = await Promise.allSettled([
-          fetch(`${API_BASE}/api/products`),
-          fetch(`${API_BASE}/api/pos/sales?limit=50&offset=0`),
-          fetch(`${API_BASE}/api/alerts?limit=20`),
+          fetch(`${API_BASE}/api/products`, fetchOptions),
+          fetch(`${API_BASE}/api/pos/sales?limit=50&offset=0`, fetchOptions),
+          fetch(`${API_BASE}/api/alerts?limit=20`, fetchOptions),
         ]);
 
         const [productsResult, salesResult, alertsResult] = results;
@@ -364,8 +371,8 @@ const Dashboard = () => {
               </button>
             </div>
           </div>
-          <div className="mt-6 h-56">
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="mt-6 h-56 min-h-[224px]">
+            <ResponsiveContainer width="99%" height="100%">
               <AreaChart data={weeklySales} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
                 <defs>
                   <linearGradient id="salesFill" x1="0" y1="0" x2="0" y2="1">
@@ -404,8 +411,8 @@ const Dashboard = () => {
           <div className="bg-white rounded-2xl p-5 shadow-sm">
             <h3 className="text-sm font-semibold text-gray-800">Peak Traffic Hours</h3>
             <p className="text-xs text-gray-500">Optimal staffing recommendations</p>
-            <div className="mt-4 h-44">
-              <ResponsiveContainer width="100%" height="100%">
+            <div className="mt-4 h-44 min-h-[176px]">
+              <ResponsiveContainer width="99%" height="100%">
                 <BarChart data={hourlyTraffic} layout="vertical" margin={{ top: 0, right: 10, left: 20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="4 4" stroke="#eef0f4" horizontal={false} />
                   <XAxis type="number" hide />
@@ -535,8 +542,8 @@ const Dashboard = () => {
               <p className="text-xs text-gray-500">Last 14 days revenue (PKR)</p>
             </div>
           </div>
-          <div className="mt-6 h-56">
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="mt-6 h-56 min-h-[224px]">
+            <ResponsiveContainer width="99%" height="100%">
               <LineChart data={revenueTrend} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="4 4" stroke="#eef0f4" vertical={false} />
                 <XAxis dataKey="day" tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: "#9aa3af" }} />
@@ -562,8 +569,8 @@ const Dashboard = () => {
               <p className="text-xs text-gray-500">Current inventory mix</p>
             </div>
           </div>
-          <div className="mt-6 h-56">
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="mt-6 h-56 min-h-[224px]">
+            <ResponsiveContainer width="99%" height="100%">
               <PieChart>
                 <Tooltip
                   formatter={(value) => [`${value} units`, "Stock"]}
