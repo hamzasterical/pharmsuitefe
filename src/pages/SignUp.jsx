@@ -208,8 +208,11 @@ const SignUp = () => {
             </div>
 
             <a
-              href={`${API_BASE}/api/auth/google`}
-              className="w-full inline-flex items-center justify-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+              href="#"
+              tabIndex={-1}
+              aria-disabled="true"
+              className="w-full inline-flex items-center justify-center gap-3 rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm font-semibold text-gray-400 cursor-not-allowed opacity-60"
+              onClick={e => e.preventDefault()}
             >
               <svg
                 aria-hidden="true"
